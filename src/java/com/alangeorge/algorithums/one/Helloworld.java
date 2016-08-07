@@ -1,4 +1,4 @@
-package com.alangeorge.algotithums.one;
+package com.alangeorge.algorithums.one;
 
 import edu.princeton.cs.algs4.StdOut;
 
