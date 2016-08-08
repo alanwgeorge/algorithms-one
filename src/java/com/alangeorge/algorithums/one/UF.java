@@ -7,11 +7,14 @@ import java.util.Arrays;
 
 public class UF {
     private int[] id;
+    private int[] depth;
 
     public UF(int n) {
         id = new int[n];
+        depth = new int[n];
         for (int i = 0; i < n; i++) {
             id[i] = i;
+            depth[i] = 1;
         }
     }
 
@@ -24,7 +27,16 @@ public class UF {
     }
 
     public void unionFast(int p, int q) {
-        id[rootI(p)] = rootI(q);
+        int rootP = rootI(p);
+        int rootQ = rootI(q);
+
+        if (depth[rootP] >= depth[rootQ]) {
+            id[rootQ] = rootP;
+            depth[rootP] = depth[rootP] + depth[rootQ];
+        } else {
+            id[rootP] = rootQ;
+            depth[rootQ] = depth[rootQ] + depth[rootP];
+        }
     }
 
     public boolean connectedFast(int p, int q) {
@@ -47,6 +59,7 @@ public class UF {
         int parent = id[node];
 
         while (parent != id[parent]) {
+            id[parent] = id[id[parent]];
             parent = id[parent];
         }
 
@@ -55,7 +68,7 @@ public class UF {
 
     @Override
     public String toString() {
-        return Arrays.toString(id);
+        return Arrays.toString(id) + "\n" + Arrays.toString(depth);
     }
 
     public static void main(String[] args) {
@@ -73,7 +86,7 @@ public class UF {
             } else {
                 StdOut.println(p + " " + q + " already connected");
             }
-            StdOut.println(uf);
         }
+//        StdOut.println(uf);
     }
 }
